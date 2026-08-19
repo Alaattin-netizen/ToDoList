@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 
+// todo: tipler için bir types.ts veya types/task.ts dosyası oluşturup Task interface'ini oraya taşıyabilirsin.
 interface Task {
   id: number
   text: string
   completed: boolean
 }
 
+// todo: bu eski bir yazım yöntemi yeni projelerde bunu göremezsin. doğrusunu sayfanın altına bırakıyorum
 export const useTaskStore = defineStore('task', {
   state: () => ({
     taskList: [] as Task[],
@@ -59,3 +61,18 @@ export const useTaskStore = defineStore('task', {
     },
   },
 })
+
+// yeni yazım yöntemi
+
+// export const useTaskStore2 = defineStore('taskt2', () => {
+//   const taskList = ref<Task[]>([])
+
+//   const loadFromLocalStorage = () => {
+
+//   }
+
+//   return {
+//     taskList,
+//     loadFromLocalStorage,
+//   }
+// })

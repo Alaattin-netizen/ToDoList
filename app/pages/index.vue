@@ -29,6 +29,14 @@ onMounted(() => {
   </div>
   <div>
     <h2>Tasks</h2>
+    <!--
+    todo:
+    burası
+    Variable 'task' is already declared in the upper scope.eslintvue/no-template-shadow
+    hatası alıyor fordaki task adını değiştir
+    (yukarıda zaten bir task tanımlı)
+    "
+    -->
     <li v-for="task in taskStore.taskList" :key="task.id">
       {{ task.text }}
       <input
