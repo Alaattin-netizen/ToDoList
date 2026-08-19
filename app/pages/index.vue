@@ -2,13 +2,13 @@
 import { useTaskStore } from '@/stores/taskStore'
 
 const taskStore = useTaskStore()
-const task = ref <string> ('')
+const text = ref <string> ('')
 
 function saveTask() {
-  if (task.value.trim() !== '') {
-    taskStore.saveToLocalStorage(task.value.trim())
-    console.warn('Task saved:', task.value)
-    task.value = ''
+  if (text.value.trim() !== '') {
+    taskStore.saveToLocalStorage(text.value.trim())
+    console.warn('Task saved:', text.value)
+    text.value = ''
   }
   else {
     console.warn('Task cannot be empty')
@@ -21,60 +21,44 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="form-group">
-    <textarea id="task" v-model="task" rows="5" placeholder="Enter new task..." required />
-    <button @click="saveTask">
+  <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-center">
+    Task Manager
+  </h1>
+
+  <div>
+    <textarea
+      v-model="text"
+      rows="4"
+      placeholder="Enter new task..."
+      class="
+            w-full
+            rounded-lg
+            border border-gray
+            p-3 md:p-4
+            text-sm md:text-base
+            focus:outline-none
+           focus:ring-2 focus:ring-green-500
+            resize-none
+            transition
+          "
+      required
+    />
+    <button class="bg-green-500 font-bold text-center text-white px-2 py-1 rounded" @click="saveTask">
       Save Task
     </button>
   </div>
   <div>
-    <h2>Tasks</h2>
-    <!--
-    todo:
-    burası
-    Variable 'task' is already declared in the upper scope.eslintvue/no-template-shadow
-    hatası alıyor fordaki task adını değiştir
-    (yukarıda zaten bir task tanımlı)
-    "
-    -->
-    <li v-for="task in taskStore.taskList" :key="task.id">
-      {{ task.text }}
-      <input
-        type="checkbox"
-        :checked="task.completed"
-        @change="taskStore.checkTask(task.id)"
-      >
-      <button @click="taskStore.deleteTask(task.id)">
-        ✕
-      </button>
-    </li>
+    <h2 class="text-xl md:text-2xl font-semibold text-gray-700 mb-4">
+      Tasks
+    </h2>
+    <ul class="space-y-3 md:space-y-4">
+      <TaskCard
+        v-for="task in taskStore.taskList"
+        :key="task.id"
+        :task="task"
+        @check="taskStore.checkTask"
+        @delete="taskStore.deleteTask"
+      />
+    </ul>
   </div>
 </template>
-
-<style scoped>
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100;
-}
-
-textarea {
-  border-radius: 12px;
-  border: 1px solid #ccc;
-}
-button {
-  cursor: pointer;
-  color: whitesmoke;
-  background-color: green;
-}
-
-li button{
-color: white;
-background-color: red;
-}
-
-li {
-  border-bottom: 1px solid #ccc;
-}
-</style>
